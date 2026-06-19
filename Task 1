@@ -1,1 +1,75 @@
+import re
+import random
 
+def get_bot_response(user_input):
+    # Normalize the input to lowercase for easier matching
+    user_input = user_input.lower().strip()
+    
+    # Dictionary mapping regex patterns to lists of possible responses
+    rules = {
+        r'\b(hello|hi|hey|greetings|howdy)\b': [
+            "Hello there! How's your day going?", 
+            "Hi! What's on your mind today?", 
+            "Hey! How can I help you out?"
+        ],
+        r'\b(how are you|how is it going|how are things)\b': [
+            "I'm just a bunch of code, but I'm doing great! You?",
+            "Running smoothly with zero bugs! How are you doing?",
+            "I'm doing well, thanks for asking! What are you up to?"
+        ],
+        r'\b(what is your name|who are you)\b': [
+            "I'm a simple rule-based chatbot built in Python.",
+            "You can call me ChatBot. I'm here to practice my conversation skills!"
+        ],
+        r'\b(joke|funny|laugh)\b': [
+            "Why do programmers prefer dark mode? Because light attracts bugs!",
+            "There are 10 types of people in the world: those who understand binary, and those who don't.",
+            "Why did the Python developer cross the road? To get to the other IDE!"
+        ],
+        r'\b(sad|depressed|tired|bad day)\b': [
+            "I'm sorry to hear that. Sometimes taking a quick walk or getting some rest helps.",
+            "That sounds tough. Remember to take it one step at a time. You've got this!",
+            "I'm just a bot, but I'm sending good vibes your way!"
+        ],
+        r'\b(weather|raining|sunny)\b': [
+            "I don't have access to the internet to check the weather, but I hope it's nice where you are!",
+            "I'm stuck inside this computer, so it's always room temperature for me!"
+        ],
+        r'\b(advice|tip)\b': [
+            "Always comment your code! Your future self will thank you.",
+            "Drink plenty of water and remember to blink when staring at the screen.",
+            "Don't be afraid to break things. That's the best way to learn how they work."
+        ]
+    }
+
+    # Loop through the rules to find a match
+    for pattern, responses in rules.items():
+        if re.search(pattern, user_input):
+            # If a match is found, pick a random response from that category
+            return random.choice(responses)
+            
+    # Fallback response if no rules match
+    fallback_responses = [
+        "I'm not exactly sure what you mean by that. Can you rephrase?",
+        "Interesting! Tell me more.",
+        "I'm still learning and don't quite understand that yet.",
+        "Could you say that in a different way?"
+    ]
+    return random.choice(fallback_responses)
+
+
+# Execution Loop
+print(" Chatbot initialized! (Type 'quit', 'exit', or 'bye' to stop)")
+print("-" * 50)
+
+while True:
+    user_in = input("You: ")
+    
+    # Exit conditions
+    if re.search(r'\b(quit|exit|bye|goodbye)\b', user_in.lower()):
+        print(" Bot: It was great chatting with you. Goodbye!")
+        break
+        
+    # Get and print the bot's response
+    response = get_bot_response(user_in)
+    print(f"🤖 Bot: {response}")
